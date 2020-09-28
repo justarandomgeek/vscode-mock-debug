@@ -149,6 +149,8 @@ export class MockDebugSession extends LoggingDebugSession {
 		// make VS Code provide "Step in Target" functionality
 		response.body.supportsStepInTargetsRequest = true;
 
+		response.body.supportsSetVariable = true;
+
 		this.sendResponse(response);
 
 		// since this debug adapter can accept configuration requests like 'setBreakpoint' at any time,
@@ -345,6 +347,12 @@ export class MockDebugSession extends LoggingDebugSession {
 		response.body = {
 			variables: variables
 		};
+		this.sendResponse(response);
+	}
+
+	protected async setVariableRequest(response: DebugProtocol.SetVariableResponse, args: DebugProtocol.SetVariableArguments, request?: DebugProtocol.Request): Promise<void> {
+		response.success = false;
+		response.message = "can't set variables";
 		this.sendResponse(response);
 	}
 
